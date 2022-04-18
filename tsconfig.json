@@ -75,7 +75,7 @@
 
 		/* Type Checking */
 		// "strict": true,                                      /* Enable all strict type-checking options. */
-		"strict": false,
+		"strict": false /* 设置非严格模式时，undefined和null赋值给其他基本类型，就不会报错了 */,
 		// "noImplicitAny": true,                            /* Enable error reporting for expressions and declarations with an implied `any` type.. */
 		// "strictNullChecks": true,                         /* When type checking, take into account `null` and `undefined`. */
 		// "strictFunctionTypes": true,                      /* When assigning functions, check to ensure parameters and the return values are subtype-compatible. */
