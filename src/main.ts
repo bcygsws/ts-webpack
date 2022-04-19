@@ -1,3 +1,10 @@
+import './ts_learn/13-抽象类.ts';
+import './ts_learn/14-ts中的函数和函数类型.ts';
+import './ts_learn/15-ts中的可选参数和默认参数.ts';
+import './ts_learn/16-剩余参数.ts';
+import './ts_learn/17-函数重载.ts';
+import './ts_learn/18-泛型.ts';
+import './ts_learn/19-泛型接口.ts';
 console.log(123);
 document.write('哈哈哈，我又变帅了');
 // 一、数据类型
@@ -294,7 +301,7 @@ console.log(para.search(reg));// 18
   const ct: Animal = new Cat('大脸猫', 2, '雄性');
   ct.sleep();
   console.log('--------------');
-  // 多态；父类型的引用指向了子类型的实例，不同类型的对象针对相同的方法，产生不同的行为
+  // 八、多态；父类型的引用指向了子类型的实例，不同类型的对象针对相同的方法，产生不同的行为
   // 如果子类型没有扩展方法，可以让子类型的引用指向父类型的实例
   // 如果子类型扩展了方法，不能让子类型的引用指向父类型的实例（子类定义了父类中没有的方法，子类型引用不能指向父类型的实例了）
   const myPig = new Animal();
@@ -345,7 +352,7 @@ console.log(para.search(reg));// 18
     age: number;//readonly或public等修饰符，修饰了构造函数中的形参后，这个参数就绑定了类实例上了，不用额外声明
     // 情形1：
     // constructor(readonly name: string, age: number) {
-      // 情形2：
+    // 情形2：
     constructor(public name: string, age: number) {
       this.name = name;
       this.age = age;
@@ -368,7 +375,7 @@ console.log(para.search(reg));// 18
   // g1.name="张小娟";
   // g1.learn();
   // 情形2：父类中的name使用public修饰时，在类的外部，这个属性参数外部也可以访问，是可以修改的
-  g1.name="张小娟";
+  g1.name = "张小娟";
   g1.learn();// 张小娟酷爱学习
   console.log("-------readonly、public等修饰构造函数的形参，成为属性参数------");
   class Fish {
@@ -437,4 +444,74 @@ console.log(para.search(reg));// 18
   // lianyu.name="鲢子";// 无法分配到 "name" ，因为它是只读属性。ts(2540)
   console.log(lianyu);
   console.log('------------类成员的修饰符---------------');
+  console.log('------------get和set存取器---------------');
+  // 十、存取器：可以有效地对类中成员的控制
+  // 给出名字和姓氏，拼接成全名，名字和姓氏通过对象初始化时传入
+  class GetName {
+    firstName: string;
+    lastName: string;
+    constructor(firstName: string, lastName: string) {
+      this.firstName = firstName;
+      this.lastName = lastName;
+    }
+    // 读取器
+    // 相当于对类中定义的属性，进行了一步处理，返回了另外一个属性FullName
+    get FullName() {
+      console.log('get中……');
+      return this.firstName + "-" + this.lastName;
+    }
+    // 设置器：对get的返回值进行重新修改
+    // val监听的是get方法的返回值
+    set FullName(val: string) {
+      console.log('set中……');
+      // 1.将val字符串按照短横线切开，返回一个数组
+      let name = val.split('-');
+      // 2.从name数组中获取元素值，赋值给firstName和lastName
+      this.firstName = name[0];
+      this.lastName = name[1];
+    }
+
+  }
+  // 实例化对象传参
+  const getName = new GetName('东方', "不败");
+  console.log(getName);// 打印实例对象
+  console.log(getName.FullName);// 获取FullName
+
+  const get1 = new GetName('上官', "婉儿");
+  console.log(get1);
+  console.log(get1.FullName);// get方法执行
+  // 1.在GetName类外面对FullName值进行修改；没有书写set方法前，直接修改get1.FullName="诸葛_孔明";将报错：
+  // (property) GetName.FullName: any无法分配到 "FullName" ，因为它是只读属性。
+  // 2.书写set方法后，FullName就能够修改了
+  get1.FullName = "诸葛-孔明";// 这一步操作时，set方法将执行，里面的逻辑会得到新的firstName和lastName的值
+  console.log(get1.FullName);// get方法执行
+  console.log('------------get和set存取器---------------');
+})();
+console.log('-------------ts中的静态成员--------------');
+// 十一、静态成员
+// 静态成员：是ts中通过static关键字修饰的方法和属性，叫做静态方法或者静态属性
+// 静态成员的调用方式：类名.静态属性或者类名.静态方法
+// 静态属性：name1可读可写
+
+(() => {
+  class Person {
+    // name1: string;
+    static name1: string = "小甜甜";
+    age: number;
+    constructor(age: number) {
+      // name1是静态属性后，name1就不能使用this实例调用了
+      // this.name1 = name1;
+      this.age = age;
+    }
+    sayHi() {
+      console.log('萨瓦迪卡');
+    }
+  }
+  // 实例化对象
+  const per = new Person(18);
+  per.sayHi();
+  // name1静态属性，只能使用类名调用
+  console.log(Person.name1);// 小甜甜
+  Person.name1 = "花满楼";
+  console.log(Person.name1);
 })();
