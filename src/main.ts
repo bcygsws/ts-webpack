@@ -5,6 +5,10 @@ import './ts_learn/16-剩余参数.ts';
 import './ts_learn/17-函数重载.ts';
 import './ts_learn/18-泛型.ts';
 import './ts_learn/19-泛型接口.ts';
+import './ts_learn/20-泛型类.ts';
+import './ts_learn/21-泛型约束.ts';
+import './ts_learn/22-声明文件.ts';
+import './ts_learn/23-内置对象.ts';
 console.log(123);
 document.write('哈哈哈，我又变帅了');
 // 一、数据类型
